@@ -53,18 +53,18 @@ print('','','')
 
 # Randomly Show an Image
 
-image_x = random.randint(0, N-1)
-fig = plt.figure()
-ax1 = fig.add_subplot(121)
-x_index = X_train[image_x,idx_slice,:,:]
-tf.print(x_index.shape)
-plt.imshow(np.squeeze(x_index), cmap='gray')
-ax2 = fig.add_subplot(122)
-ax1.title.set_text('Clinical Image')
-y_index = Y_train[image_x,idx_slice,:,:]
-plt.imshow(np.squeeze(y_index), cmap='gray')
-ax2.title.set_text('Real Mask')
-plt.show()
+# image_x = random.randint(0, N-1)
+# fig = plt.figure()
+# ax1 = fig.add_subplot(121)
+# x_index = X_train[image_x,idx_slice,:,:]
+# tf.print(x_index.shape)
+# plt.imshow(np.squeeze(x_index), cmap='gray')
+# ax2 = fig.add_subplot(122)
+# ax1.title.set_text('Clinical Image')
+# y_index = Y_train[image_x,idx_slice,:,:]
+# plt.imshow(np.squeeze(y_index), cmap='gray')
+# ax2.title.set_text('Real Mask')
+# plt.show()
 
 # UNet Model
 inputs = tf.keras.layers.Input((img_thickness, img_width, img_height, img_channels))
