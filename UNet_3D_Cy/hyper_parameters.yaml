@@ -1,0 +1,19 @@
+path_to_data: './data/datasets-promise12'
+path_to_save: './result' 
+
+N: 50
+N_test: 30
+
+img_width: 128
+img_height: 128
+img_thickness: 32
+img_channels: 1
+
+learning_rate: 5e-5
+epochs: 100
+val_size: 0.1
+dropout: 0.2
+batch_size: 15
+patience: 50
+
+f: [0, 32, 64, 128, 256, 512, 256, 128, 64, 32]
