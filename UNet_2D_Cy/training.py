@@ -185,32 +185,42 @@ results = model.fit(X_train, Y_train, validation_split=val_size, batch_size=batc
 idx = random.randint(0, N)
 
 preds_train = model.predict(X_train[:int(X_train.shape[0]*(1-val_size))], verbose=1)
-preds_train = np.reshape(preds_train, (N,img_thickness, img_width, img_height))
+tf.print(preds_train.shape)
+preds_train = np.reshape(preds_train, (int(N*(1-val_size)),img_thickness, img_width, img_height))
+tf.print(preds_train.shape)
 
 preds_val = model.predict(X_train[int(X_train.shape[0]*(1-val_size)):], verbose=1)
-preds_val = np.reshape(preds_val, (N,img_thickness, img_width, img_height))
+tf.print(preds_val.shape)
+preds_val = np.reshape(preds_val, (int(N*val_size),img_thickness, img_width, img_height))
+tf.print(preds_val.shape)
 
 preds_test = model.predict(X_test, verbose=1)
+tf.print(preds_test.shape)
 preds_test = np.reshape(preds_test, (N_test,img_thickness, img_width, img_height))
+tf.print(preds_test.shape)
 
 preds_train_t = (preds_train > 0.5).astype(np.uint8)
 preds_val_t = (preds_val > 0.5).astype(np.uint8)
 preds_test_t = (preds_test > 0.5).astype(np.uint8)
 
+X_train = np.reshape(X_train, (N, img_thickness, img_height, img_width, img_channels))
+Y_train = np.reshape(Y_train, (N, img_thickness, img_height, img_width, img_channels))
+X_test = np.reshape(X_test, (N_test, img_thickness, img_height, img_width, img_channels))
+
 print('','','')
 print('','','')
-print('Saving 3D Segmentation Training Masks')
+print('Saving 2D Segmentation Training Masks')
 
 for ix in tqdm(range(len(preds_train))):
     for iy in range(img_thickness):
         fig = plt.figure()
-        fig.suptitle(f'3D Segmentation Training Masks (ix={ix+1}, slice={iy+1})', fontsize=12)
+        fig.suptitle(f'2D Segmentation Training Masks (ix={ix+1}, slice={iy+1})', fontsize=12)
         ax1 = fig.add_subplot(131)
         plt.imshow(np.squeeze(X_train[ix,iy,:,:]))
         ax2 = fig.add_subplot(132)
         plt.imshow(np.squeeze(Y_train[ix,iy,:,:]))
         ax3 = fig.add_subplot(133)
-        plt.imshow(np.squeeze(preds_train_t[ix,iy,:,:]))
+        plt.imshow(preds_train_t[ix,iy,:,:])
         ax1.title.set_text('Clinical Image')
         ax2.title.set_text('Real Mask')
         ax3.title.set_text('Predicted Mask')
@@ -220,16 +230,16 @@ for ix in tqdm(range(len(preds_train))):
 print('Finished Saving')
 print('','','')
 print('','','')
-print('Saving 3D Segmentation Testing Masks')
+print('Saving 2D Segmentation Testing Masks')
 
 for ix in tqdm(range(len(preds_test))):
     for iy in range(img_thickness):
         fig = plt.figure()
-        fig.suptitle(f'3D Segmentation Testing Masks (ix={ix+1}, slice={iy+1})', fontsize=12)
+        fig.suptitle(f'2D Segmentation Testing Masks (ix={ix+1}, slice={iy+1})', fontsize=12)
         ax1 = fig.add_subplot(121)
         plt.imshow(np.squeeze(X_test[ix,iy,:,:]))
         ax3 = fig.add_subplot(122)
-        plt.imshow(np.squeeze(preds_test_t[ix,iy,:,:]))
+        plt.imshow(preds_test_t[ix,iy,:,:])
         ax1.title.set_text('Clinical Image')
         ax2.title.set_text('Real Mask')
         ax3.title.set_text('Predicted Mask')
