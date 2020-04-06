@@ -230,6 +230,22 @@ for ix in tqdm(range(len(preds_train))):
 print('Finished Saving')
 print('','','')
 print('','','')
+print('Saving 2D Segmentation Training Mask Overlays')
+
+for ix in tqdm(range(len(preds_train))):
+    for iy in range(img_thickness):
+        fig = plt.figure()
+        fig.suptitle(f'2D Segmentation Training Mask Overlay (ix={ix+1}, slice={iy+1})', fontsize=12)
+        ax1 = fig.add_subplot()
+        plt.imshow(np.squeeze(X_train[ix]))
+        plt.contour(np.squeeze(Y_train[ix]),1,colors='yellow',linewidths=0.5)
+        plt.contour(np.squeeze(preds_train_t[ix]),1,colors='red',linewidths=0.5)
+        plt.savefig(f'plots_training_overlay/Training_Overlay_ix_{ix+1}_slice_{iy+1}.png')
+        plt.close()
+
+print('Finished Saving')
+print('','','')
+print('','','')
 print('Saving 2D Segmentation Testing Masks')
 
 for ix in tqdm(range(len(preds_test))):
